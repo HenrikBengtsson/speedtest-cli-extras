@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+user=$USER
+if test -z $user; then
+  user=$USERNAME
+fi
+echo $user
+log=/tmp/$user/speedtest-csv.log
+echo $log
+sep=";"
+
+# Local functions
+function str_extract() {
+## echo LOG=$log
+ pattern=$1
+ # Extract
+ res=`grep "$pattern" $log | sed -e "s/$pattern//g"`
+ # Drop trailing ...
+ res=`echo $res | sed -e "s/[.][.][.]//g"`
+ # Trim
+ res=`echo $res | sed -e "s/^ *//g" | sed -e "s/ *$//g"`
+ echo $res
+}
+
+if test "$1" = "--header"; then
+  start="start"
+  stop="stop"
+  from="from"
+  from_ip="from_ip"
+  server="server"
+  server_dist="server_dist"
+  server_ping="server_ping"
+  download="download"
+  upload="upload"
+  share_url="share_url"
+else
+  mkdir -p `dirname $log`
+
+  start=`date +"%Y-%m-%d %H:%M%:%S"`
+  
+  # Query Speedtest
+  speedtest-cli --share > $log
+  
+  stop=`date +"%Y-%m-%d %H:%M%:%S"`
+  
+  # Parse
+  from=`str_extract "Testing from "`
+  from_ip=`echo $from | sed -e 's/.*(//g' | sed -e 's/).*//g'`
+  from=`echo $from | sed -e 's/ (.*//g'`
+  
+  server=`str_extract "Hosted by "`
+  server_ping=`echo $server | sed -e 's/.*: //g'`
+  server=`echo $server | sed -e 's/: .*//g'`
+  server_dist=`echo $server | sed -e 's/.*\\[//g' | sed -e 's/\\].*//g'`
+  server=`echo $server | sed -e 's/ \\[.*//g'`
+  
+  download=`str_extract "Download: "`
+  upload=`str_extract "Upload: "`
+  share_url=`str_extract "Share results: "`
+
+  # Cleanup
+  rm $log
+fi
+  
+# Output CSV results
+echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
+
