@@ -1,13 +1,19 @@
+###########################################################################
+# Copyright (C) 2014 Henrik Bengtsson
+# License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
+###########################################################################
 #!/usr/bin/env bash
 
+# Character for separating values
+# (commas are not safe, because some servers return speeds with commas)
+sep=";"
+
+# Temporary file holding speedtest-cli output
 user=$USER
 if test -z $user; then
   user=$USERNAME
 fi
-echo $user
 log=/tmp/$user/speedtest-csv.log
-echo $log
-sep=";"
 
 # Local functions
 function str_extract() {
@@ -22,6 +28,7 @@ function str_extract() {
  echo $res
 }
 
+# Display header?
 if test "$1" = "--header"; then
   start="start"
   stop="stop"
@@ -59,9 +66,8 @@ else
   share_url=`str_extract "Share results: "`
 
   # Cleanup
-  rm $log
+#  rm $log
 fi
   
 # Output CSV results
 echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
-
