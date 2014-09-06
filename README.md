@@ -7,7 +7,7 @@ This repository contains tools that enhance the [speedtest-cli] command-line int
 The `speedtest-csv` bash script runs `speedtest-cli` and outputs the results on a single line where the values are separated by semicolons, e.g.
 ```
 $ speedtest-csv
-2014-09-06 10:02:59;2014-09-06 10:03:30;Comcast Cable;73.162.87.38;SingTel (Palo Alto, CA);56.44 km;15.705 ms;50.00 Mbits/s;5.72 Mbits/s;
+2014-09-06 10:07:51;2014-09-06 10:09:31;Comcast Cable;73.162.87.38;AT&T (San Francisco, CA);20.22 km;24.536 ms;44.25 Mbits/s;4.93 Mbits/s;http://www.speedtest.net/result/3741180214.png
 ```
 To generate column names, do
 ```
