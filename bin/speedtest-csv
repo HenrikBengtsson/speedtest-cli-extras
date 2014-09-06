@@ -43,12 +43,12 @@ if test "$1" = "--header"; then
 else
   mkdir -p `dirname $log`
 
-  start=`date +"%Y-%m-%d %H:%M%:%S"`
+  start=`date +"%Y-%m-%d %H:%M:%S"`
   
   # Query Speedtest
   speedtest-cli --share > $log
   
-  stop=`date +"%Y-%m-%d %H:%M%:%S"`
+  stop=`date +"%Y-%m-%d %H:%M:%S"`
   
   # Parse
   from=`str_extract "Testing from "`
@@ -64,9 +64,6 @@ else
   download=`str_extract "Download: "`
   upload=`str_extract "Upload: "`
   share_url=`str_extract "Share results: "`
-
-  # Cleanup
-#  rm $log
 fi
   
 # Output CSV results
