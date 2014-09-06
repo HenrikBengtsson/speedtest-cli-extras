@@ -16,7 +16,7 @@ start;stop;from;from_ip;server;server_dist;server_ping;download;upload;share_url
 ```
 
 _Footnotes:_  
-(*) Commas are not safe to use to separate the values, because some test servers reports speeds with commas instead of periods.  Because of this, semicolons are used instead.
+(*) Commas are not safe to use to separate the values, because some test servers report speeds with commas instead of periods.  Because of this, semicolons are used instead.
 
 [speedtest-cli]: https://github.com/sivel/speedtest-cli
 [speedtest.net]: http://www.speedtest.net/
