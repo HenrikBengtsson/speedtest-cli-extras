@@ -46,7 +46,7 @@ else
   start=`date +"%Y-%m-%d %H:%M:%S"`
   
   # Query Speedtest
-#  speedtest-cli --share > $log
+  speedtest-cli --share > $log
   
   stop=`date +"%Y-%m-%d %H:%M:%S"`
   
