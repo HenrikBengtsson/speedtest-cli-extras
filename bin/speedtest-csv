@@ -17,14 +17,13 @@ log=/tmp/$user/speedtest-csv.log
 
 # Local functions
 function str_extract() {
-## echo LOG=$log
  pattern=$1
  # Extract
- res=`grep "$pattern" $log | sed -e "s/$pattern//g"`
+ res=`grep "$pattern" $log | sed "s/$pattern//g"`
  # Drop trailing ...
- res=`echo $res | sed -e "s/[.][.][.]//g"`
+ res=`echo $res | sed 's/[.][.][.]//g'`
  # Trim
- res=`echo $res | sed -e "s/^ *//g" | sed -e "s/ *$//g"`
+ res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
  echo $res
 }
 
@@ -44,22 +43,27 @@ else
   mkdir -p `dirname $log`
 
   start=`date +"%Y-%m-%d %H:%M:%S"`
-  
-  # Query Speedtest
-  speedtest-cli --share > $log
+
+  if test -n "SPEEDTEST_CSV_SKIP" && test -f "$log"; then
+    # Reuse existing results (useful for debugging)
+    1>&2 echo "** Reusing existing results: $log"
+  else
+    # Query Speedtest
+    speedtest-cli --share > $log
+  fi
   
   stop=`date +"%Y-%m-%d %H:%M:%S"`
   
   # Parse
   from=`str_extract "Testing from "`
-  from_ip=`echo $from | sed -e 's/.*(//g' | sed -e 's/).*//g'`
-  from=`echo $from | sed -e 's/ (.*//g'`
+  from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
+  from=`echo $from | sed 's/ (.*//g'`
   
   server=`str_extract "Hosted by "`
-  server_ping=`echo $server | sed -e 's/.*: //g'`
-  server=`echo $server | sed -e 's/: .*//g'`
-  server_dist=`echo $server | sed -e 's/.*\\[//g' | sed -e 's/\\].*//g'`
-  server=`echo $server | sed -e 's/ \\[.*//g'`
+  server_ping=`echo $server | sed 's/.*: //g'`
+  server=`echo $server | sed 's/: .*//g'`
+  server_dist=`echo $server | sed 's/.*\\[//g' | sed 's/\\].*//g'`
+  server=`echo $server | sed 's/ \\[.*//g'`
   
   download=`str_extract "Download: "`
   upload=`str_extract "Upload: "`
@@ -68,8 +72,8 @@ fi
 
 # Standardize units?
 if test "$1" = "--standardize"; then
-  download=`echo $download | sed -e 's/Mbits/Mbit/'`
-  upload=`echo $upload | sed -e 's/Mbits/Mbit/'`
+  download=`echo $download | sed 's/Mbits/Mbit/'`
+  upload=`echo $upload | sed 's/Mbits/Mbit/'`
 fi
   
 # Output CSV results

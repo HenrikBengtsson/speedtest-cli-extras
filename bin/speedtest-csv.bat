@@ -3,5 +3,12 @@
 @rem # Windows Batch script for launching speedtest-csv via
 @rem # bash, cf. MinGW [http://www.mingw.org/]
 @rem ##################################################################
-@rem # Call the bash script in the same directory as this script
-bash %~dp0\speedtest-csv %*
+@rem # Temporarily add Batch script directory to the front of PATH,
+@rem # before calling bash script. This avoid having to have the
+@rem # bash script on the search PATH.
+set PATH_ORG=%PATH%
+set PATH_TMP=%~dp0;%PATH%
+rem set PATH=%PATH_TMP%
+bash --login -c "speedtest-csv %*"
+set PATH=%PATH_ORG%
+
