@@ -1,8 +1,8 @@
+#!/usr/bin/env bash
 ###########################################################################
 # Copyright (C) 2014 Henrik Bengtsson
 # License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 ###########################################################################
-#!/usr/bin/env bash
 
 # Character for separating values
 # (commas are not safe, because some servers return speeds with commas)
