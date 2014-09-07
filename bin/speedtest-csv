@@ -46,7 +46,7 @@ else
   start=`date +"%Y-%m-%d %H:%M:%S"`
   
   # Query Speedtest
-  speedtest-cli --share > $log
+#  speedtest-cli --share > $log
   
   stop=`date +"%Y-%m-%d %H:%M:%S"`
   
@@ -64,6 +64,12 @@ else
   download=`str_extract "Download: "`
   upload=`str_extract "Upload: "`
   share_url=`str_extract "Share results: "`
+fi
+
+# Standardize units?
+if test "$1" = "--standardize"; then
+  download=`echo $download | sed -e 's/Mbits/Mbit/'`
+  upload=`echo $upload | sed -e 's/Mbits/Mbit/'`
 fi
   
 # Output CSV results
