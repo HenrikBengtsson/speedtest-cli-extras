@@ -44,7 +44,7 @@ else
 
   start=`date +"%Y-%m-%d %H:%M:%S"`
 
-  if test -n "SPEEDTEST_CSV_SKIP" && test -f "$log"; then
+  if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
     # Reuse existing results (useful for debugging)
     1>&2 echo "** Reusing existing results: $log"
   else
