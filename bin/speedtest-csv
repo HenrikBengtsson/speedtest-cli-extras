@@ -30,6 +30,7 @@ debug=FALSE
 header=FALSE
 standardize=FALSE
 last=FALSE
+version=FALSE
 
 # Character for separating values
 sep=";"
@@ -52,6 +53,8 @@ while [[ $# > 0 ]]; do
         last=TRUE
     elif test "$1" == "--debug"; then
         debug=TRUE
+    elif test "$1" == "--version"; then
+        version=TRUE
     fi
     shift
 done
@@ -66,9 +69,15 @@ if [[ $debug == TRUE ]]; then
     mdebug "header: $header"
     mdebug "standardize: $standardize"
     mdebug "last: $last"
+    mdebug "version: $version"
     mdebug "field delimeter: '$sep'"
     mdebug "quotation mark: $quote"
 fi
+
+if [[ $version == TRUE ]]; then
+    echo "1.1.0"
+    exit 0
+fi 
 
 # Display header?
 if [[ $header == TRUE ]]; then
