@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 ###########################################################################
-# Copyright (C) 2014 Henrik Bengtsson
+# Copyright (c) 2014-2016 Henrik Bengtsson
 # License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 ###########################################################################
+call="$0 $*"
 
 # Character for separating values
 # (commas are not safe, because some servers return speeds with commas)
@@ -16,6 +17,8 @@ fi
 log=/tmp/$user/speedtest-csv.log
 
 # Local functions
+function mecho() { echo "$@" 1>&2; }
+function mdebug() { mecho "[DEBUG]: $@"; }
 function str_extract() {
  pattern=$1
  # Extract
@@ -27,8 +30,32 @@ function str_extract() {
  echo $res
 }
 
+debug=FALSE
+header=FALSE
+standardize=FALSE
+
+# Parse command-line options
+while [[ $# > 0 ]]; do
+    opt=$1
+    if test "$opt" == "--header"; then
+	header=TRUE
+    elif test "$1" == "--standardize"; then
+        standardize=TRUE
+    elif test "$1" == "--debug"; then
+        debug=TRUE
+    fi
+    shift
+done
+
+if [[ $debug == TRUE ]]; then
+    mdebug "call: $call"
+    mdebug "header: $header"
+    mdebug "standardize: $standardize"
+fi
+
 # Display header?
-if test "$1" = "--header"; then
+if [[ $header == TRUE ]]; then
+    mdebug "generating header"
   start="start"
   stop="stop"
   from="from"
@@ -46,7 +73,7 @@ else
 
   if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
     # Reuse existing results (useful for debugging)
-    1>&2 echo "** Reusing existing results: $log"
+    mecho "** Reusing existing results: $log"
   else
     # Query Speedtest
     speedtest-cli --share > $log
@@ -71,7 +98,7 @@ else
 fi
 
 # Standardize units?
-if test "$1" = "--standardize"; then
+if [[ $standardize == TRUE ]]; then
   download=`echo $download | sed 's/Mbits/Mbit/'`
   upload=`echo $upload | sed 's/Mbits/Mbit/'`
 fi
