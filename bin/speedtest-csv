@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
-###########################################################################
-# Copyright (c) 2014-2016 Henrik Bengtsson
-# License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
-###########################################################################
+### Usage:
+###  speedtest-csv [options]
+###
+### Options:
+###  --debug        Output extra debug information
+###  --header       Display field names (only)
+###  --help         This help
+###  --last         Use most recent stats, iff available
+###  --quote <str>  Use <str> as quotation mark
+###  --sep <str>    Use <str> as field separator
+###  --standardize  Standardize units and number formats
+###  --version      Display version
+###
+### Example:
+###  speedtest-csv --standardize --sep '\t'
+###
+### Copyright: 2014-2016 Henrik Bengtsson
+### License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 call="$0 $*"
 
 # Temporary file holding speedtest-cli output
@@ -14,7 +28,11 @@ log=/tmp/$user/speedtest-csv.log
 
 # Local functions
 function mecho() { echo "$@" 1>&2; }
-function mdebug() { mecho "[DEBUG]: $@"; }
+function mdebug() {
+    if [[ $debug == TRUE ]]; then
+	mecho "[DEBUG]: $@";
+    fi
+}
 function str_extract() {
     pattern=$1
     # Extract
@@ -31,6 +49,7 @@ header=FALSE
 standardize=FALSE
 last=FALSE
 version=FALSE
+help=FALSE
 
 # Character for separating values
 sep=";"
@@ -55,6 +74,8 @@ while [[ $# > 0 ]]; do
         debug=TRUE
     elif test "$1" == "--version"; then
         version=TRUE
+    elif test "$1" == "--help"; then
+        help=TRUE
     fi
     shift
 done
@@ -76,6 +97,11 @@ fi
 
 if [[ $version == TRUE ]]; then
     echo "1.1.0"
+    exit 0
+fi 
+
+if [[ $help == TRUE ]]; then
+    grep "^###" $0 | grep -v "^####" | cut -b 5-
     exit 0
 fi 
 
