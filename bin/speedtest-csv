@@ -96,7 +96,7 @@ if [[ $debug == TRUE ]]; then
 fi
 
 if [[ $version == TRUE ]]; then
-    echo "1.1.1"
+    echo "1.1.1-9000"
     exit 0
 fi 
 
