@@ -100,8 +100,17 @@ else
 
     # Standardize units?
     if [[ $standardize == TRUE ]]; then
+	## Mbits/s -> Mbit/s
+        mdebug "Standardize to Mbit/s"
         download=`echo $download | sed 's/Mbits/Mbit/'`
         upload=`echo $upload | sed 's/Mbits/Mbit/'`
+
+	## commas to periods
+        mdebug "Standardize to periods (not commas)"
+        download=`echo $download | sed 's/,/./'`
+        upload=`echo $upload | sed 's/,/./'`
+        server_dist=`echo $server_dist | sed 's/,/./'`
+        server_ping=`echo $server_ping | sed 's/,/./'`
     fi
     
     mecho "start: '$start'"
