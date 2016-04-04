@@ -75,9 +75,9 @@ if [[ $header == TRUE ]]; then
     upload="upload"
     share_url="share_url"
 else
-    mkdir -p `dirname $log`
+    mkdir -p $(dirname $log)
   
-    start=`date +"%Y-%m-%d %H:%M:%S"`
+    start=$(date +"%Y-%m-%d %H:%M:%S")
   
     if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
         # Reuse existing results (useful for debugging)
@@ -88,37 +88,36 @@ else
         speedtest-cli --share > $log
     fi
     
-    stop=`date +"%Y-%m-%d %H:%M:%S"`
+    stop=$(date +"%Y-%m-%d %H:%M:%S")
     
     # Parse
     mdebug "Parsing results"
-    from=`str_extract "Testing from "`
-    from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
-    from=`echo $from | sed 's/ (.*//g'`
+    from=$(str_extract "Testing from ")
+    from_ip=$(echo $from | sed 's/.*(//g' | sed 's/).*//g')
+    from=$(echo $from | sed 's/ (.*//g')
+    server=$(str_extract "Hosted by ")
+    server_ping=$(echo $server | sed 's/.*: //g')
+    server=$(echo $server | sed 's/: .*//g')
+    server_dist=$(echo $server | sed 's/.*\[//g' | sed 's/\].*//g')
+    server=$(echo $server | sed 's/ \[.*//g')
     
-    server=`str_extract "Hosted by "`
-    server_ping=`echo $server | sed 's/.*: //g'`
-    server=`echo $server | sed 's/: .*//g'`
-    server_dist=`echo $server | sed 's/.*\\[//g' | sed 's/\\].*//g'`
-    server=`echo $server | sed 's/ \\[.*//g'`
-    
-    download=`str_extract "Download: "`
-    upload=`str_extract "Upload: "`
-    share_url=`str_extract "Share results: "`
+    download=$(str_extract "Download: ")
+    upload=$(str_extract "Upload: ")
+    share_url=$(str_extract "Share results: ")
 
     # Standardize units?
     if [[ $standardize == TRUE ]]; then
 	## Mbits/s -> Mbit/s
         mdebug "Standardize to Mbit/s"
-        download=`echo $download | sed 's/Mbits/Mbit/'`
-        upload=`echo $upload | sed 's/Mbits/Mbit/'`
+        download=$(echo $download | sed 's/Mbits/Mbit/')
+        upload=$(echo $upload | sed 's/Mbits/Mbit/')
 
 	## commas to periods
         mdebug "Standardize to periods (not commas)"
-        download=`echo $download | sed 's/,/./'`
-        upload=`echo $upload | sed 's/,/./'`
-        server_dist=`echo $server_dist | sed 's/,/./'`
-        server_ping=`echo $server_ping | sed 's/,/./'`
+        download=$(echo $download | sed 's/,/./')
+        upload=$(echo $upload | sed 's/,/./')
+        server_dist=$(echo $server_dist | sed 's/,/./')
+        server_ping=$(echo $server_ping | sed 's/,/./')
     fi
     
     mdebug "start: '$start'"
@@ -137,4 +136,3 @@ fi
 # Output CSV results
 sep="$quote$sep$quote"
 printf "$quote$start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url$quote\n"
-
