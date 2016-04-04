@@ -12,7 +12,7 @@ sep=";"
 # Temporary file holding speedtest-cli output
 user=$USER
 if test -z $user; then
-  user=$USERNAME
+    user=$USERNAME
 fi
 log=/tmp/$user/speedtest-csv.log
 
@@ -20,14 +20,14 @@ log=/tmp/$user/speedtest-csv.log
 function mecho() { echo "$@" 1>&2; }
 function mdebug() { mecho "[DEBUG]: $@"; }
 function str_extract() {
- pattern=$1
- # Extract
- res=`grep "$pattern" $log | sed "s/$pattern//g"`
- # Drop trailing ...
- res=`echo $res | sed 's/[.][.][.]//g'`
- # Trim
- res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
- echo $res
+    pattern=$1
+    # Extract
+    res=`grep "$pattern" $log | sed "s/$pattern//g"`
+    # Drop trailing ...
+    res=`echo $res | sed 's/[.][.][.]//g'`
+    # Trim
+    res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
+    echo $res
 }
 
 debug=FALSE
@@ -56,51 +56,51 @@ fi
 # Display header?
 if [[ $header == TRUE ]]; then
     mdebug "generating header"
-  start="start"
-  stop="stop"
-  from="from"
-  from_ip="from_ip"
-  server="server"
-  server_dist="server_dist"
-  server_ping="server_ping"
-  download="download"
-  upload="upload"
-  share_url="share_url"
+    start="start"
+    stop="stop"
+    from="from"
+    from_ip="from_ip"
+    server="server"
+    server_dist="server_dist"
+    server_ping="server_ping"
+    download="download"
+    upload="upload"
+    share_url="share_url"
 else
-  mkdir -p `dirname $log`
-
-  start=`date +"%Y-%m-%d %H:%M:%S"`
-
-  if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
-    # Reuse existing results (useful for debugging)
-    mecho "** Reusing existing results: $log"
-  else
-    # Query Speedtest
-    speedtest-cli --share > $log
-  fi
+    mkdir -p `dirname $log`
   
-  stop=`date +"%Y-%m-%d %H:%M:%S"`
+    start=`date +"%Y-%m-%d %H:%M:%S"`
   
-  # Parse
-  from=`str_extract "Testing from "`
-  from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
-  from=`echo $from | sed 's/ (.*//g'`
-  
-  server=`str_extract "Hosted by "`
-  server_ping=`echo $server | sed 's/.*: //g'`
-  server=`echo $server | sed 's/: .*//g'`
-  server_dist=`echo $server | sed 's/.*\\[//g' | sed 's/\\].*//g'`
-  server=`echo $server | sed 's/ \\[.*//g'`
-  
-  download=`str_extract "Download: "`
-  upload=`str_extract "Upload: "`
-  share_url=`str_extract "Share results: "`
+    if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
+        # Reuse existing results (useful for debugging)
+        mecho "** Reusing existing results: $log"
+    else
+        # Query Speedtest
+        speedtest-cli --share > $log
+    fi
+    
+    stop=`date +"%Y-%m-%d %H:%M:%S"`
+    
+    # Parse
+    from=`str_extract "Testing from "`
+    from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
+    from=`echo $from | sed 's/ (.*//g'`
+    
+    server=`str_extract "Hosted by "`
+    server_ping=`echo $server | sed 's/.*: //g'`
+    server=`echo $server | sed 's/: .*//g'`
+    server_dist=`echo $server | sed 's/.*\\[//g' | sed 's/\\].*//g'`
+    server=`echo $server | sed 's/ \\[.*//g'`
+    
+    download=`str_extract "Download: "`
+    upload=`str_extract "Upload: "`
+    share_url=`str_extract "Share results: "`
 fi
 
 # Standardize units?
 if [[ $standardize == TRUE ]]; then
-  download=`echo $download | sed 's/Mbits/Mbit/'`
-  upload=`echo $upload | sed 's/Mbits/Mbit/'`
+    download=`echo $download | sed 's/Mbits/Mbit/'`
+    upload=`echo $upload | sed 's/Mbits/Mbit/'`
 fi
   
 # Output CSV results
