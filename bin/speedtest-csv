@@ -5,10 +5,6 @@
 ###########################################################################
 call="$0 $*"
 
-# Character for separating values
-# (commas are not safe, because some servers return speeds with commas)
-sep=";"
-
 # Temporary file holding speedtest-cli output
 user=$USER
 if test -z $user; then
@@ -34,11 +30,21 @@ debug=FALSE
 header=FALSE
 standardize=FALSE
 
+# Character for separating values
+sep=";"
+quote=""
+
 # Parse command-line options
 while [[ $# > 0 ]]; do
     opt=$1
     if test "$opt" == "--header"; then
 	header=TRUE
+    elif test "$opt" == "--quote"; then
+	quote=$2
+	shift
+    elif test "$opt" == "--sep"; then
+	sep=$2
+	shift
     elif test "$1" == "--standardize"; then
         standardize=TRUE
     elif test "$1" == "--debug"; then
@@ -51,6 +57,8 @@ if [[ $debug == TRUE ]]; then
     mdebug "call: $call"
     mdebug "header: $header"
     mdebug "standardize: $standardize"
+    mdebug "field delimeter: '$sep'"
+    mdebug "quotation mark: $quote"
 fi
 
 # Display header?
@@ -113,18 +121,20 @@ else
         server_ping=`echo $server_ping | sed 's/,/./'`
     fi
     
-    mecho "start: '$start'"
-    mecho "stop: '$stop'"
-    mecho "from: '$from'"
-    mecho "from_ip: '$from_ip'"
-    mecho "server: '$server'"
-    mecho "server_dist: '$server_dist'"
-    mecho "server_ping: '$server_ping'"
-    mecho "download: '$download'"
-    mecho "upload: '$upload'"
-    mecho "share_url: '$share_url'"
+    mdebug "start: '$start'"
+    mdebug "stop: '$stop'"
+    mdebug "from: '$from'"
+    mdebug "from_ip: '$from_ip'"
+    mdebug "server: '$server'"
+    mdebug "server_dist: '$server_dist'"
+    mdebug "server_ping: '$server_ping'"
+    mdebug "download: '$download'"
+    mdebug "upload: '$upload'"
+    mdebug "share_url: '$share_url'"
 fi
 
   
 # Output CSV results
-echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
+sep="$quote$sep$quote"
+printf "$quote$start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url$quote\n"
+
