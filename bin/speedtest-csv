@@ -29,6 +29,7 @@ function str_extract() {
 debug=FALSE
 header=FALSE
 standardize=FALSE
+last=FALSE
 
 # Character for separating values
 sep=";"
@@ -47,16 +48,24 @@ while [[ $# > 0 ]]; do
 	shift
     elif test "$1" == "--standardize"; then
         standardize=TRUE
+    elif test "$1" == "--last"; then
+        last=TRUE
     elif test "$1" == "--debug"; then
         debug=TRUE
     fi
     shift
 done
 
+if [[ -n "$SPEEDTEST_CSV_SKIP" ]]; then
+    mdebug "\$SPEEDTEST_CSV_SKIP => --last"
+    last=TRUE
+fi
+
 if [[ $debug == TRUE ]]; then
     mdebug "call: $call"
     mdebug "header: $header"
     mdebug "standardize: $standardize"
+    mdebug "last: $last"
     mdebug "field delimeter: '$sep'"
     mdebug "quotation mark: $quote"
 fi
@@ -79,7 +88,7 @@ else
   
     start=$(date +"%Y-%m-%d %H:%M:%S")
   
-    if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
+    if [[ $last == TRUE && -f "$log" ]]; then
         # Reuse existing results (useful for debugging)
         mdebug "Reusing existing results: $log"
     else
