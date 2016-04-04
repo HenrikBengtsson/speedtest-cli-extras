@@ -55,7 +55,7 @@ fi
 
 # Display header?
 if [[ $header == TRUE ]]; then
-    mdebug "generating header"
+    mdebug "Generating header"
     start="start"
     stop="stop"
     from="from"
@@ -73,15 +73,17 @@ else
   
     if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
         # Reuse existing results (useful for debugging)
-        mecho "** Reusing existing results: $log"
+        mdebug "Reusing existing results: $log"
     else
         # Query Speedtest
+        mdebug "Querying Speedtest using 'speedtest-cli --share'"
         speedtest-cli --share > $log
     fi
     
     stop=`date +"%Y-%m-%d %H:%M:%S"`
     
     # Parse
+    mdebug "Parsing results"
     from=`str_extract "Testing from "`
     from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
     from=`echo $from | sed 's/ (.*//g'`
@@ -95,6 +97,17 @@ else
     download=`str_extract "Download: "`
     upload=`str_extract "Upload: "`
     share_url=`str_extract "Share results: "`
+
+    mecho "start: '$start'"
+    mecho "stop: '$stop'"
+    mecho "from: '$from'"
+    mecho "from_ip: '$from_ip'"
+    mecho "server: '$server'"
+    mecho "server_dist: '$server_dist'"
+    mecho "server_ping: '$server_ping'"
+    mecho "download: '$download'"
+    mecho "upload: '$upload'"
+    mecho "share_url: '$share_url'"
 fi
 
 # Standardize units?
