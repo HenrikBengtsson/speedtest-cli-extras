@@ -1,22 +1,47 @@
 # speedtest-cli-extras
 
-This repository contains tools that enhance the [speedtest-cli] command-line interface to [speedtest.net].
+The [speedtest-cli-extras] repository contains tools that enhance the
+`[speedtest-cli]` command-line interface to [speedtest.net] for
+benchmarking an internet connection.
+
+## Requirements
+* The `speedtest-csv` tools requires Bash (just like `[speedtest-cli]`).
+* Windows users: The MinGW project's [MSYS] package is an
+straightforward way to get Bash on Windows.  Note, there is a
+`speedtest-csv.bat` Windows Batch wrapper script that calls the bash
+script for you.  In other words, if you can `speedtest-csv` at the
+_Windows_ command prompt, it will work just as if you called it from
+Bash.
+
+
+using Bash,
 
 ## speedtest-csv
+The `speedtest-csv` tool calls `speedtest-cli`, captures its
+multi-line output, reformats it, adds time stamps, and outputs
+the benchmark statistics on a _single_ well formatted line, e.g.
+```
+$ speedtest-csv --standardize --sep '\t'
+2016-04-04 09:24:31	2016-04-04 09:24:31	Comcast Cable	24.130.241.190	Monkey Brains (San Francisco, CA)	21.36 km	17.673 ms	5.32 Mbits/s		
+```
 
-The `speedtest-csv` bash script calls `speedtest-cli`, captures its output, reformats it, and outputs it on a single line with time stamps and values separated by _semicolons_<sup>*</sup>, e.g.
+By running the above on a regular basis (e.g. once an hour) and
+appending the output to a TAB-delimited file one can gather statistics
+over time.  To add meaningful column names to the top of this file,
+start off by:
 ```
-$ speedtest-csv
-2014-09-06 10:07:51;2014-09-06 10:09:31;Comcast Cable;73.162.87.38;AT&T (San Francisco, CA);20.22 km;24.536 ms;44.25 Mbits/s;4.93 Mbits/s;http://www.speedtest.net/result/3741180214.png
+$ speedtest-csv --header --sep '\t' > speedtest_stats.tsv
+$ speedtest-csv --standardize --sep '\t' > speedtest_stats.tsv
+$ speedtest-csv --standardize --sep '\t' > speedtest_stats.tsv
+$ less speedtest_stats.tsv
 ```
+
+Together with
 To generate column names, do
-```
-$ speedtest-csv --header
-start;stop;from;from_ip;server;server_dist;server_ping;download;upload;share_url
-```
 
-_Footnotes:_  
-(*) Commas are not safe to use to separate the values, because some test servers report speeds with commas instead of periods.  Because of this, semicolons are used instead.
+## Windows users
 
+[speedtest-cli-extras]: https://github.com/HenrikBengtsson/speedtest-cli-extras
 [speedtest-cli]: https://github.com/sivel/speedtest-cli
 [speedtest.net]: http://www.speedtest.net/
+[MSYS]: http://www.mingw.org/wiki/msys

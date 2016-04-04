@@ -30,7 +30,7 @@ log=/tmp/$user/speedtest-csv.log
 function mecho() { echo "$@" 1>&2; }
 function mdebug() {
     if [[ $debug == TRUE ]]; then
-	mecho "[DEBUG]: $@";
+	mecho "[DEBUG] $@";
     fi
 }
 function str_extract() {
@@ -96,7 +96,7 @@ if [[ $debug == TRUE ]]; then
 fi
 
 if [[ $version == TRUE ]]; then
-    echo "1.1.0"
+    echo "1.1.0-9000"
     exit 0
 fi 
 
