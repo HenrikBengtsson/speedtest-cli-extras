@@ -98,6 +98,12 @@ else
     upload=`str_extract "Upload: "`
     share_url=`str_extract "Share results: "`
 
+    # Standardize units?
+    if [[ $standardize == TRUE ]]; then
+        download=`echo $download | sed 's/Mbits/Mbit/'`
+        upload=`echo $upload | sed 's/Mbits/Mbit/'`
+    fi
+    
     mecho "start: '$start'"
     mecho "stop: '$stop'"
     mecho "from: '$from'"
@@ -110,11 +116,6 @@ else
     mecho "share_url: '$share_url'"
 fi
 
-# Standardize units?
-if [[ $standardize == TRUE ]]; then
-    download=`echo $download | sed 's/Mbits/Mbit/'`
-    upload=`echo $upload | sed 's/Mbits/Mbit/'`
-fi
   
 # Output CSV results
 echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
