@@ -1,6 +1,12 @@
 speedtest-cli-extras
 ====================
 
+Version 1.1.0-9000 (2016-04-04)
+* Updates to speedtest-csv:
+  - BUG FIX: speedtest-csv.bat did not look for speedtest-csv in the
+    same directory as itself.
+
+
 Version 1.1.0 (2016-04-03)
 * Updates to speedtest-csv:
   - It is now possible to output fields delimited by arbitrary strings,
