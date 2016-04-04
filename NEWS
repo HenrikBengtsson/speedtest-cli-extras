@@ -1,0 +1,26 @@
+speedtest-cli-extras
+====================
+
+Version 1.1.1 (2016-04-04)
+* Updates to speedtest-csv:
+  - BUG FIX: speedtest-csv.bat did not look for speedtest-csv in the
+    same directory as itself.
+* Updated README.
+
+
+Version 1.1.0 (2016-04-03)
+* Updates to speedtest-csv:
+  - It is now possible to output fields delimited by arbitrary strings,
+    e.g. commas (--sep ',') and TABs (--sep '\t').  For backward
+    compatibility, the default is still to use semicolons (--sep ';').
+    This default separator might change in a future version.
+  - It is now possible output quoted fields, e.g. --quote '"'.
+  - Added command-line options --help, --version, --debug, --last, --sep,
+    and --quote (in addition to existing --header and --standardize).
+  - Modernized the command-line option parser.  This makes it easier
+    to add more options in the future.
+
+
+Version 1.0.0 (2014-09-06)
+* Released bash script speedtest-csv.
+
