@@ -1,80 +1,156 @@
 #!/usr/bin/env bash
 ###########################################################################
-# Copyright (C) 2014 Henrik Bengtsson
+# Copyright (c) 2014-2016 Henrik Bengtsson
 # License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 ###########################################################################
-
-# Character for separating values
-# (commas are not safe, because some servers return speeds with commas)
-sep=";"
+call="$0 $*"
 
 # Temporary file holding speedtest-cli output
 user=$USER
 if test -z $user; then
-  user=$USERNAME
+    user=$USERNAME
 fi
 log=/tmp/$user/speedtest-csv.log
 
 # Local functions
+function mecho() { echo "$@" 1>&2; }
+function mdebug() { mecho "[DEBUG]: $@"; }
 function str_extract() {
- pattern=$1
- # Extract
- res=`grep "$pattern" $log | sed "s/$pattern//g"`
- # Drop trailing ...
- res=`echo $res | sed 's/[.][.][.]//g'`
- # Trim
- res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
- echo $res
+    pattern=$1
+    # Extract
+    res=`grep "$pattern" $log | sed "s/$pattern//g"`
+    # Drop trailing ...
+    res=`echo $res | sed 's/[.][.][.]//g'`
+    # Trim
+    res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
+    echo $res
 }
 
+debug=FALSE
+header=FALSE
+standardize=FALSE
+last=FALSE
+version=FALSE
+
+# Character for separating values
+sep=";"
+quote=""
+
+# Parse command-line options
+while [[ $# > 0 ]]; do
+    opt=$1
+    if test "$opt" == "--header"; then
+	header=TRUE
+    elif test "$opt" == "--quote"; then
+	quote=$2
+	shift
+    elif test "$opt" == "--sep"; then
+	sep=$2
+	shift
+    elif test "$1" == "--standardize"; then
+        standardize=TRUE
+    elif test "$1" == "--last"; then
+        last=TRUE
+    elif test "$1" == "--debug"; then
+        debug=TRUE
+    elif test "$1" == "--version"; then
+        version=TRUE
+    fi
+    shift
+done
+
+if [[ -n "$SPEEDTEST_CSV_SKIP" ]]; then
+    mdebug "\$SPEEDTEST_CSV_SKIP => --last"
+    last=TRUE
+fi
+
+if [[ $debug == TRUE ]]; then
+    mdebug "call: $call"
+    mdebug "header: $header"
+    mdebug "standardize: $standardize"
+    mdebug "last: $last"
+    mdebug "version: $version"
+    mdebug "field delimeter: '$sep'"
+    mdebug "quotation mark: $quote"
+fi
+
+if [[ $version == TRUE ]]; then
+    echo "1.1.0"
+    exit 0
+fi 
+
 # Display header?
-if test "$1" = "--header"; then
-  start="start"
-  stop="stop"
-  from="from"
-  from_ip="from_ip"
-  server="server"
-  server_dist="server_dist"
-  server_ping="server_ping"
-  download="download"
-  upload="upload"
-  share_url="share_url"
+if [[ $header == TRUE ]]; then
+    mdebug "Generating header"
+    start="start"
+    stop="stop"
+    from="from"
+    from_ip="from_ip"
+    server="server"
+    server_dist="server_dist"
+    server_ping="server_ping"
+    download="download"
+    upload="upload"
+    share_url="share_url"
 else
-  mkdir -p `dirname $log`
+    mkdir -p $(dirname $log)
+  
+    start=$(date +"%Y-%m-%d %H:%M:%S")
+  
+    if [[ $last == TRUE && -f "$log" ]]; then
+        # Reuse existing results (useful for debugging)
+        mdebug "Reusing existing results: $log"
+    else
+        # Query Speedtest
+        mdebug "Querying Speedtest using 'speedtest-cli --share'"
+        speedtest-cli --share > $log
+    fi
+    
+    stop=$(date +"%Y-%m-%d %H:%M:%S")
+    
+    # Parse
+    mdebug "Parsing results"
+    from=$(str_extract "Testing from ")
+    from_ip=$(echo $from | sed 's/.*(//g' | sed 's/).*//g')
+    from=$(echo $from | sed 's/ (.*//g')
+    server=$(str_extract "Hosted by ")
+    server_ping=$(echo $server | sed 's/.*: //g')
+    server=$(echo $server | sed 's/: .*//g')
+    server_dist=$(echo $server | sed 's/.*\[//g' | sed 's/\].*//g')
+    server=$(echo $server | sed 's/ \[.*//g')
+    
+    download=$(str_extract "Download: ")
+    upload=$(str_extract "Upload: ")
+    share_url=$(str_extract "Share results: ")
 
-  start=`date +"%Y-%m-%d %H:%M:%S"`
+    # Standardize units?
+    if [[ $standardize == TRUE ]]; then
+	## Mbits/s -> Mbit/s
+        mdebug "Standardize to Mbit/s"
+        download=$(echo $download | sed 's/Mbits/Mbit/')
+        upload=$(echo $upload | sed 's/Mbits/Mbit/')
 
-  if test -n "$SPEEDTEST_CSV_SKIP" && test -f "$log"; then
-    # Reuse existing results (useful for debugging)
-    1>&2 echo "** Reusing existing results: $log"
-  else
-    # Query Speedtest
-    speedtest-cli --share > $log
-  fi
-  
-  stop=`date +"%Y-%m-%d %H:%M:%S"`
-  
-  # Parse
-  from=`str_extract "Testing from "`
-  from_ip=`echo $from | sed 's/.*(//g' | sed 's/).*//g'`
-  from=`echo $from | sed 's/ (.*//g'`
-  
-  server=`str_extract "Hosted by "`
-  server_ping=`echo $server | sed 's/.*: //g'`
-  server=`echo $server | sed 's/: .*//g'`
-  server_dist=`echo $server | sed 's/.*\\[//g' | sed 's/\\].*//g'`
-  server=`echo $server | sed 's/ \\[.*//g'`
-  
-  download=`str_extract "Download: "`
-  upload=`str_extract "Upload: "`
-  share_url=`str_extract "Share results: "`
+	## commas to periods
+        mdebug "Standardize to periods (not commas)"
+        download=$(echo $download | sed 's/,/./')
+        upload=$(echo $upload | sed 's/,/./')
+        server_dist=$(echo $server_dist | sed 's/,/./')
+        server_ping=$(echo $server_ping | sed 's/,/./')
+    fi
+    
+    mdebug "start: '$start'"
+    mdebug "stop: '$stop'"
+    mdebug "from: '$from'"
+    mdebug "from_ip: '$from_ip'"
+    mdebug "server: '$server'"
+    mdebug "server_dist: '$server_dist'"
+    mdebug "server_ping: '$server_ping'"
+    mdebug "download: '$download'"
+    mdebug "upload: '$upload'"
+    mdebug "share_url: '$share_url'"
 fi
 
-# Standardize units?
-if test "$1" = "--standardize"; then
-  download=`echo $download | sed 's/Mbits/Mbit/'`
-  upload=`echo $upload | sed 's/Mbits/Mbit/'`
-fi
   
 # Output CSV results
-echo $start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url
+sep="$quote$sep$quote"
+printf "$quote$start$sep$stop$sep$from$sep$from_ip$sep$server$sep$server_dist$sep$server_ping$sep$download$sep$upload$sep$share_url$quote\n"
