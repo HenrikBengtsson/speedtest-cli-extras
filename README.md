@@ -75,4 +75,4 @@ License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
 [speedtest-cli]: https://github.com/sivel/speedtest-cli
 [speedtest.net]: http://www.speedtest.net/
 [MSYS]: http://www.mingw.org/wiki/msys
-[Cron] jobs: https://www.wikipedia.org/wiki/Cron
+[Cron]: https://www.wikipedia.org/wiki/Cron
