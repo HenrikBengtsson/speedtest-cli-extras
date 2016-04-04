@@ -39,8 +39,7 @@ $ speedtest-csv --standardize --sep '\t' >> speedtest_stats.tsv
 $ less speedtest_stats.tsv
 start	stop	from	from_ip	server	server_dist	server_ping	download	upload	share_url
 2016-04-04 08:00:01	2016-04-04 08:01:01	Comcast Cable	24.130.241.190	Fastmetrics Inc. (San Francisco, CA)	20.46 km	18.168 ms	4.88 Mbit/s	1.34 Mbit/s	http://www.speedtest.net/result/5224137223.png
-2016-04-04 09:00:02	2016-04-04 09:00:42	Comcast Cable	24.130.241.190 Monkey Brains (San Francisco, CA)	21.36 km	16.723 ms	3.40
-Mbit/s	0.21 Mbit/s	http://www.speedtest.net/result/5224152283.png
+2016-04-04 09:00:02	2016-04-04 09:00:42	Comcast Cable	24.130.241.190	Monkey Brains (San Francisco, CA)	21.36 km	16.723 ms	3.40 Mbit/s	0.21 Mbit/s	http://www.speedtest.net/result/5224152283.png
 [...]
 ```
 
