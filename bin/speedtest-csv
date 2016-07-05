@@ -12,7 +12,7 @@
 ###  --standardize  Standardize units and number formats
 ###  --version      Display version
 ###
-### Any other options are passed as is to speedtest-cli.
+### Any other options are passed to speedtest-cli as is.
 ###
 ### Example:
 ###  speedtest-csv --standardize --sep '\t'
