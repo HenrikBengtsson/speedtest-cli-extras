@@ -18,7 +18,7 @@
 ###  speedtest-csv --standardize --sep '\t'
 ###
 ### Copyright: 2014-2016 Henrik Bengtsson
-### License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
+### License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]
 call="$0 $*"
 
 # Temporary file holding speedtest-cli output
