@@ -12,11 +12,13 @@
 ###  --standardize  Standardize units and number formats
 ###  --version      Display version
 ###
+### Any other options are passed to speedtest-cli as is.
+###
 ### Example:
 ###  speedtest-csv --standardize --sep '\t'
 ###
 ### Copyright: 2014-2016 Henrik Bengtsson
-### License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
+### License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]
 call="$0 $*"
 
 # Temporary file holding speedtest-cli output
@@ -54,6 +56,7 @@ help=FALSE
 # Character for separating values
 sep=";"
 quote=""
+opts=
 
 # Parse command-line options
 while [[ $# > 0 ]]; do
@@ -76,9 +79,14 @@ while [[ $# > 0 ]]; do
         version=TRUE
     elif test "$1" == "--help"; then
         help=TRUE
+    else
+	opts="$opts $1"
     fi
     shift
 done
+
+# Trim
+opts=`echo $opts | sed 's/^ *//g' | sed 's/ *$//g'`
 
 if [[ -n "$SPEEDTEST_CSV_SKIP" ]]; then
     mdebug "\$SPEEDTEST_CSV_SKIP => --last"
@@ -93,10 +101,11 @@ if [[ $debug == TRUE ]]; then
     mdebug "version: $version"
     mdebug "field delimeter: '$sep'"
     mdebug "quotation mark: $quote"
+    mdebug "additional options: $opts"
 fi
 
 if [[ $version == TRUE ]]; then
-    echo "1.1.1"
+    echo "1.1.2"
     exit 0
 fi 
 
@@ -128,8 +137,9 @@ else
         mdebug "Reusing existing results: $log"
     else
         # Query Speedtest
-        mdebug "Querying Speedtest using 'speedtest-cli --share'"
-        speedtest-cli --share > $log
+	cmd="speedtest-cli --share $opts"
+        mdebug "Querying Speedtest using '$cmd'"
+        $cmd > $log
     fi
     
     stop=$(date +"%Y-%m-%d %H:%M:%S")

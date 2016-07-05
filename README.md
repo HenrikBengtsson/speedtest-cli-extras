@@ -63,11 +63,13 @@ Options:
  --standardize  Standardize units and number formats
  --version      Display version
 
+Any other options are passed to speedtest-cli as is.
+
 Example:
  speedtest-csv --standardize --sep '\t'
 
 Copyright: 2014-2016 Henrik Bengtsson
-License: GPL (>= 2.1) [http://www.gnu.org/licenses/gpl.html]
+License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]
 ```
 
 
