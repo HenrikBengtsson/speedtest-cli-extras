@@ -5,7 +5,8 @@ The [speedtest-cli-extras] repository contains tools that enhance the
 benchmarking an internet connection.
 
 ## Requirements
-* The `speedtest-csv` tool requires Bash (just like `speedtest-cli`).
+* [`speedtest-cli`](https://github.com/sivel/speedtest-cli): used internally by `speedtest-csv`.
+* Bash: `speedtest-csv` is a bash script.
 * Windows users: The MinGW project's [MSYS] package is an
 straightforward way to get Bash on Windows.  Note, there is a
 `speedtest-csv.bat` Windows Batch wrapper script that calls the bash
