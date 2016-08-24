@@ -1,8 +1,10 @@
 speedtest-cli-extras
 ====================
 
-Version 1.1.2-9000 (2016-07-05)
-* ...
+Version 1.1.2-9000 (2016-08-24)
+* Added options --share and --no-share for controlling whether
+  speedtest-cli should be called with --share or not.
+* Added options --no-standardize to report non-standardized units.
 
 
 Version 1.1.2 (2016-07-05)

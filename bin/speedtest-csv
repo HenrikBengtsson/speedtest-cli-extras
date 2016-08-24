@@ -3,14 +3,18 @@
 ###  speedtest-csv [options]
 ###
 ### Options:
-###  --debug        Output extra debug information
-###  --header       Display field names (only)
-###  --help         This help
-###  --last         Use most recent stats, iff available
-###  --quote <str>  Use <str> as quotation mark
-###  --sep <str>    Use <str> as field separator
-###  --standardize  Standardize units and number formats
-###  --version      Display version
+###  --debug           Output extra debug information
+###  --header          Display field names (only)
+###  --help            This help
+###  --last            Use most recent stats, iff available
+###  --quote <str>     Use <str> as quotation mark
+###  --sep <str>       Use <str> as field separator
+###  --share           Generate and provide a URL to the speedtest.net
+###                    share results image
+###  --no-share        Disable --share
+###  --standardize     Standardize units and number formats
+###  --no-standardize  Disable --standardize
+###  --version         Display version
 ###
 ### Any other options are passed to speedtest-cli as is.
 ###
@@ -49,6 +53,7 @@ function str_extract() {
 debug=FALSE
 header=FALSE
 standardize=FALSE
+share=TRUE
 last=FALSE
 version=FALSE
 help=FALSE
@@ -69,8 +74,14 @@ while [[ $# > 0 ]]; do
     elif test "$opt" == "--sep"; then
 	sep=$2
 	shift
+    elif test "$1" == "--share"; then
+        share=TRUE
+    elif test "$1" == "--no-share"; then
+        share=FALSE
     elif test "$1" == "--standardize"; then
         standardize=TRUE
+    elif test "$1" == "--no-standardize"; then
+        standardize=FALSE
     elif test "$1" == "--last"; then
         last=TRUE
     elif test "$1" == "--debug"; then
@@ -85,6 +96,10 @@ while [[ $# > 0 ]]; do
     shift
 done
 
+if [[ $share == TRUE ]]; then
+    opts="$opts --share"
+fi
+
 # Trim
 opts=`echo $opts | sed 's/^ *//g' | sed 's/ *$//g'`
 
@@ -97,11 +112,12 @@ if [[ $debug == TRUE ]]; then
     mdebug "call: $call"
     mdebug "header: $header"
     mdebug "standardize: $standardize"
+    mdebug "share: $share"
     mdebug "last: $last"
     mdebug "version: $version"
     mdebug "field delimeter: '$sep'"
     mdebug "quotation mark: $quote"
-    mdebug "additional options: $opts"
+    mdebug "speedtest-cli options: $opts"
 fi
 
 if [[ $version == TRUE ]]; then
@@ -137,7 +153,7 @@ else
         mdebug "Reusing existing results: $log"
     else
         # Query Speedtest
-	cmd="speedtest-cli --share $opts"
+	cmd="speedtest-cli $opts"
         mdebug "Querying Speedtest using '$cmd'"
         $cmd > $log
     fi
@@ -157,7 +173,11 @@ else
     
     download=$(str_extract "Download: ")
     upload=$(str_extract "Upload: ")
-    share_url=$(str_extract "Share results: ")
+    if [[ $share == TRUE ]]; then
+	share_url=$(str_extract "Share results: ")
+    else
+	share_url=
+    fi
 
     # Standardize units?
     if [[ $standardize == TRUE ]]; then
