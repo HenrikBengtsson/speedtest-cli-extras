@@ -156,9 +156,18 @@ else
 	cmd="speedtest-cli $opts"
         mdebug "Querying Speedtest using '$cmd'"
         $cmd > $log
+	status=$?
+        mdebug "Exit code: $status"
     fi
     
     stop=$(date +"%Y-%m-%d %H:%M:%S")
+
+    # Was speedtest-cli successful?
+    if [[ $status -ne 0 ]]; then
+	mecho "ERROR: '$cmd' failed (exit code $status)."
+	mecho $(cat /tmp/$user/speedtest-csv.log)
+	exit $status
+    fi
     
     # Parse
     mdebug "Parsing results"
