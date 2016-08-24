@@ -7,8 +7,9 @@
 ###  --header          Display field names (only)
 ###  --help            This help
 ###  --last            Use most recent stats, iff available
-###  --quote <str>     Use <str> as quotation mark
-###  --sep <str>       Use <str> as field separator
+###                    (avoids calling `speedtest-cli`)
+###  --quote <str>     Quote fields using <str>
+###  --sep <str>       Separate fields using <str>
 ###  --share           Generate and provide a URL to the speedtest.net
 ###                    share results image
 ###  --no-share        Disable --share

@@ -1,11 +1,15 @@
-# speedtest-cli-extras
+s# speedtest-cli-extras
 
 The [speedtest-cli-extras] repository contains tools that enhance the
 [speedtest-cli] command-line interface to [speedtest.net] for
 benchmarking an internet connection.
 
 ## Requirements
-* The `speedtest-csv` tool requires Bash (just like `speedtest-cli`).
+
+* The `speedtest-csv` tool requires:
+  - a Bash shell or be called via `bash speedtest-csv`.
+  - `speedtest-cli` which in turn requires Python.
+  - that `speedtest-cli` is on the `PATH`.
 * Windows users: The MinGW project's [MSYS] package is an
 straightforward way to get Bash on Windows.  Note, there is a
 `speedtest-csv.bat` Windows Batch wrapper script that calls the bash
@@ -54,14 +58,19 @@ Usage:
  speedtest-csv [options]
 
 Options:
- --debug        Output extra debug information
- --header       Display field names (only)
- --help         This help
- --last         Use most recent stats, iff available
- --quote <str>  Use <str> as quotation mark
- --sep <str>    Use <str> as field separator
- --standardize  Standardize units and number formats
- --version      Display version
+ --debug           Output extra debug information
+ --header          Display field names (only)
+ --help            This help
+ --last            Use most recent stats, iff available
+                   (avoids calling `speedtest-cli`)
+ --quote <str>     Quote fields using <str>
+ --sep <str>       Separate fields using <str>
+ --share           Generate and provide a URL to the speedtest.net
+                   share results image
+ --no-share        Disable --share
+ --standardize     Standardize units and number formats
+ --no-standardize  Disable --standardize
+ --version         Display version
 
 Any other options are passed to speedtest-cli as is.
 
