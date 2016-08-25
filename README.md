@@ -5,7 +5,11 @@ The [speedtest-cli-extras] repository contains tools that enhance the
 benchmarking an internet connection.
 
 ## Requirements
-* The `speedtest-csv` tool requires Bash (just like `speedtest-cli`).
+
+* The `speedtest-csv` tool requires:
+  - a Bash shell or be called via `bash speedtest-csv`.
+  - [`speedtest-cli`](https://github.com/sivel/speedtest-cli) which in turn requires Python.
+  - that `speedtest-cli` is on the `PATH`.
 * Windows users: The MinGW project's [MSYS] package is an
 straightforward way to get Bash on Windows.  Note, there is a
 `speedtest-csv.bat` Windows Batch wrapper script that calls the bash
@@ -19,7 +23,7 @@ The `speedtest-csv` tool calls `speedtest-cli`, captures its
 multi-line output, reformats it, adds time stamps, and outputs
 the benchmark statistics on a _single_ well formatted line, e.g.
 ```sh
-$ speedtest-csv --standardize --sep '\t'
+$ speedtest-csv --sep '\t' --standardize
 2016-04-04 09:24:31	2016-04-04 09:24:31	Comcast Cable	24.130.241.190	Monkey Brains (San Francisco, CA)	21.36 km	17.673 ms	5.32 Mbits/s		
 ```
 
@@ -29,11 +33,11 @@ appending the output to a TAB-delimited file one can gather statistics
 over time.  To add meaningful column names to the top of this file,
 start off by:
 ```sh
-$ speedtest-csv --header --sep '\t' > speedtest_stats.tsv
+$ speedtest-csv --sep '\t' --header > speedtest_stats.tsv
 # At 00:00 UTC
-$ speedtest-csv --standardize --sep '\t' >> speedtest_stats.tsv
+$ speedtest-csv --sep '\t' --standardize >> speedtest_stats.tsv
 # At 01:00 UTC
-$ speedtest-csv --standardize --sep '\t' >> speedtest_stats.tsv
+$ speedtest-csv --sep '\t' --standardize >> speedtest_stats.tsv
 # ...
 
 $ less speedtest_stats.tsv
@@ -54,19 +58,25 @@ Usage:
  speedtest-csv [options]
 
 Options:
- --debug        Output extra debug information
- --header       Display field names (only)
- --help         This help
- --last         Use most recent stats, iff available
- --quote <str>  Use <str> as quotation mark
- --sep <str>    Use <str> as field separator
- --standardize  Standardize units and number formats
- --version      Display version
+ --debug           Output extra debug information
+ --header          Display field names (only)
+ --help            This help
+ --last            Use most recent stats, iff available
+                   (avoids calling `speedtest-cli`)
+ --quote <str>     Quote fields using <str>
+ --sep <str>       Separate fields using <str>
+ --share           Generate and provide a URL to the speedtest.net
+                   share results image
+ --no-share        Disable --share
+ --standardize     Standardize units and number formats
+ --no-standardize  Disable --standardize
+ --version         Display version
 
 Any other options are passed to speedtest-cli as is.
 
 Example:
- speedtest-csv --standardize --sep '\t'
+ speedtest-csv --sep '\t' --standardize
+ speedtest-csv --sep '\t' --header
 
 Copyright: 2014-2016 Henrik Bengtsson
 License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]

@@ -1,6 +1,15 @@
 speedtest-cli-extras
 ====================
 
+Version 1.1.2-9000 (2016-08-24)
+* Updates to speedtest-csv:
+  - Added options --share and --no-share for controlling whether
+    speedtest-cli should be called with --share or not.
+  - Added options --no-standardize to report non-standardized units.
+  - If speedtest-cli has a non-zero exit code, then speedtest-csv
+    exits with an error message and the same exit code.
+    
+
 Version 1.1.2 (2016-07-05)
 * Updates to speedtest-csv:
   - speedtest-csv now passes any additional unknown arguments as-is
