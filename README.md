@@ -1,4 +1,4 @@
-s# speedtest-cli-extras
+# speedtest-cli-extras
 
 The [speedtest-cli-extras] repository contains tools that enhance the
 [speedtest-cli] command-line interface to [speedtest.net] for
