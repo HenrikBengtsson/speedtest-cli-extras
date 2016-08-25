@@ -20,7 +20,8 @@
 ### Any other options are passed to speedtest-cli as is.
 ###
 ### Example:
-###  speedtest-csv --standardize --sep '\t'
+###  speedtest-csv --sep '\t' --standardize
+###  speedtest-csv --sep '\t' --header
 ###
 ### Copyright: 2014-2016 Henrik Bengtsson
 ### License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]
