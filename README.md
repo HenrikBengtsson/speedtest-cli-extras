@@ -8,7 +8,7 @@ benchmarking an internet connection.
 
 * The `speedtest-csv` tool requires:
   - a Bash shell or be called via `bash speedtest-csv`.
-  - `speedtest-cli` which in turn requires Python.
+  - [`speedtest-cli`](https://github.com/sivel/speedtest-cli) which in turn requires Python.
   - that `speedtest-cli` is on the `PATH`.
 * Windows users: The MinGW project's [MSYS] package is an
 straightforward way to get Bash on Windows.  Note, there is a
