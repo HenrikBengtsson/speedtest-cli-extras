@@ -1,7 +1,7 @@
 speedtest-cli-extras
 ====================
 
-Version 1.1.2-9000 (2016-08-24)
+Version 1.2.0 (2016-08-25)
 * Updates to speedtest-csv:
   - Added options --share and --no-share for controlling whether
     speedtest-cli should be called with --share or not.
