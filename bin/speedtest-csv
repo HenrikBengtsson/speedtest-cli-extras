@@ -132,7 +132,7 @@ if [[ $debug == TRUE ]]; then
 fi
 
 if [[ $version == TRUE ]]; then
-    echo "1.3.0"
+    echo "1.3.0-9000"
     exit 0
 fi 
 
