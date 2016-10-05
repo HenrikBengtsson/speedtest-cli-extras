@@ -4,6 +4,9 @@ The [speedtest-cli-extras] repository contains tools that enhance the
 [speedtest-cli] command-line interface to [speedtest.net] for
 benchmarking an internet connection.
 
+## Heads up
+_2016-09-11: Next version of speedtest-csv will use `--sep '\t'` and `--standardize` as the default.  If you are relying on the current defaults, make sure to update your code to use `--sep ';'` and `--no-standardize` if you want backward compatibility._
+
 ## Requirements
 
 * The `speedtest-csv` tool requires:
