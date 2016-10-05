@@ -6,14 +6,15 @@
 ###  --debug           Output extra debug information
 ###  --header          Display field names (only)
 ###  --help            This help
-###  --last            Use most recent stats (if available)
+###  --last            Use most recent stats, if available
 ###                    (avoids calling `speedtest-cli`)
 ###  --quote <str>     Quote fields using <str> (default: none)
 ###  --sep <str>       Separate fields using <str> (default ';')
 ###  --share           Generate and provide a URL to the speedtest.net
 ###                    share results image (default)
 ###  --no-share        Disable --share
-###  --header-units    Specify units in header rather than values
+###  --header-units    Specify units in header rather than with values
+###  --no-header-units Disable --header-units (default)
 ###  --standardize     Standardize units and number formats
 ###  --no-standardize  Disable --standardize (default)
 ###  --version         Display version
@@ -75,6 +76,8 @@ while [[ $# > 0 ]]; do
 	header=TRUE
     elif test "$opt" == "--header-units"; then
 	header_units=TRUE
+    elif test "$opt" == "--no-header-units"; then
+	header_units=FALSE
     elif test "$opt" == "--quote"; then
 	quote=$2
 	shift
