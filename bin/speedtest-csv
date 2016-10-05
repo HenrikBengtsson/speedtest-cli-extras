@@ -6,21 +6,23 @@
 ###  --debug           Output extra debug information
 ###  --header          Display field names (only)
 ###  --help            This help
-###  --last            Use most recent stats, iff available
+###  --last            Use most recent stats (if available)
 ###                    (avoids calling `speedtest-cli`)
-###  --quote <str>     Quote fields using <str>
-###  --sep <str>       Separate fields using <str>
+###  --quote <str>     Quote fields using <str> (default: none)
+###  --sep <str>       Separate fields using <str> (default ';')
 ###  --share           Generate and provide a URL to the speedtest.net
-###                    share results image
+###                    share results image (default)
 ###  --no-share        Disable --share
+###  --header-units    Specify units in header rather than values
 ###  --standardize     Standardize units and number formats
-###  --no-standardize  Disable --standardize
+###  --no-standardize  Disable --standardize (default)
 ###  --version         Display version
 ###
 ### Any other options are passed to speedtest-cli as is.
 ###
 ### Example:
 ###  speedtest-csv --sep '\t' --standardize
+###  speedtest-csv --sep '\t' --header-units
 ###  speedtest-csv --sep '\t' --header
 ###
 ### Copyright: 2014-2016 Henrik Bengtsson
@@ -59,6 +61,7 @@ share=TRUE
 last=FALSE
 version=FALSE
 help=FALSE
+header_units=FALSE
 
 # Character for separating values
 sep=";"
@@ -70,6 +73,8 @@ while [[ $# > 0 ]]; do
     opt=$1
     if test "$opt" == "--header"; then
 	header=TRUE
+    elif test "$opt" == "--header-units"; then
+	header_units=TRUE
     elif test "$opt" == "--quote"; then
 	quote=$2
 	shift
@@ -113,6 +118,7 @@ fi
 if [[ $debug == TRUE ]]; then
     mdebug "call: $call"
     mdebug "header: $header"
+    mdebug "header_units: $header_units"
     mdebug "standardize: $standardize"
     mdebug "share: $share"
     mdebug "last: $last"
@@ -123,7 +129,7 @@ if [[ $debug == TRUE ]]; then
 fi
 
 if [[ $version == TRUE ]]; then
-    echo "1.2.0"
+    echo "1.3.0"
     exit 0
 fi 
 
@@ -140,11 +146,18 @@ if [[ $header == TRUE ]]; then
     from="from"
     from_ip="from_ip"
     server="server"
-    server_dist="server_dist"
-    server_ping="server_ping"
-    download="download"
-    upload="upload"
     share_url="share_url"
+    if [[ $header_units == TRUE ]]; then
+        server_dist="server_dist (km)"
+        server_ping="server_ping (ms)"
+        download="download (Mbit/s)"
+        upload="upload (Mbit/s)"
+    else
+        server_dist="server_dist"
+        server_ping="server_ping"
+        download="download"
+        upload="upload"
+    fi
 else
     mkdir -p $(dirname $log)
   
@@ -154,6 +167,9 @@ else
         # Reuse existing results (useful for debugging)
         mdebug "Reusing existing results: $log"
     else
+	# In case speedtest-cli is in the same directory
+	# as speedtest-csv, but neither is on the PATH
+        PATH=$(dirname $0):$PATH
         # Query Speedtest
 	cmd="speedtest-cli $opts"
         mdebug "Querying Speedtest using '$cmd'"
@@ -203,6 +219,13 @@ else
         upload=$(echo $upload | sed 's/,/./')
         server_dist=$(echo $server_dist | sed 's/,/./')
         server_ping=$(echo $server_ping | sed 's/,/./')
+    fi
+
+    if [[ $header_units == TRUE ]]; then
+        download=$(echo $download | sed 's/ .*//')
+        upload=$(echo $upload | sed 's/ .*//')
+        server_dist=$(echo $server_dist | sed 's/ .*//')
+        server_ping=$(echo $server_ping | sed 's/ .*//')
     fi
     
     mdebug "start: '$start'"
