@@ -1,8 +1,12 @@
 speedtest-cli-extras
 ====================
 
-Version 1.2.0-9000 (2016-08-25)
-* ...
+Version 1.2.0-9000 (2016-10-04)
+* Updates to speedtest-csv:
+  - Added option --header-units, which adds units to the header
+    fields rather than the values.
+  - If speedtest-csv and speedtest-cli are in the same directory,
+    then speedtest-cli is guaranteed to be found regardless of PATH.
 
 
 Version 1.2.0 (2016-08-25)
