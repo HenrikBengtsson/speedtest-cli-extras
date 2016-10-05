@@ -167,6 +167,9 @@ else
         # Reuse existing results (useful for debugging)
         mdebug "Reusing existing results: $log"
     else
+	# In case speedtest-cli is in the same directory
+	# as speedtest-csv, but neither is on the PATH
+        PATH=$(dirname $0):$PATH
         # Query Speedtest
 	cmd="speedtest-cli $opts"
         mdebug "Querying Speedtest using '$cmd'"
