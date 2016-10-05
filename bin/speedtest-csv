@@ -76,6 +76,8 @@ while [[ $# > 0 ]]; do
 	header=TRUE
     elif test "$opt" == "--header-units"; then
 	header_units=TRUE
+    elif test "$opt" == "--no-header-units"; then
+	header_units=FALSE
     elif test "$opt" == "--quote"; then
 	quote=$2
 	shift
