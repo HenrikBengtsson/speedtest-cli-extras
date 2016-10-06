@@ -51,7 +51,7 @@ start	stop	from	from_ip	server	server_dist	server_ping	download	upload	share_url
 [...]
 ```
 
-If you're on Linux or OS X, you can use [Cron] jobs to automate the
+If you're on Linux or macOS, you can use [Cron] jobs to automate the
 above.
 
 If you prefer to have the units in the header rather than the values, then you can use option `--header-units` as
