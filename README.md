@@ -28,7 +28,7 @@ multi-line output, reformats it, adds time stamps, and outputs
 the benchmark statistics on a _single_ well formatted line, e.g.
 ```sh
 $ speedtest-csv --sep '\t' --standardize
-2016-04-04 09:24:31	2016-04-04 09:24:31	Comcast Cable	24.130.241.190	Monkey Brains (San Francisco, CA)	21.36 km	17.673 ms	5.32 Mbits/s		
+2016-04-04 04:40:02	2016-04-04 09:00:42	Comcast Cable	24.130.241.190	Monkey Brains (San Francisco, CA)	21.36 km	13.273 ms	4.40 Mbit/s	0.42 Mbit/s	http
 ```
 
 ### Collecting statistics over time
