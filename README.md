@@ -14,10 +14,11 @@ _2016-10-04: Soon speedtest-csv will use `--sep '\t'`, `--standardize` and `--he
   - a Bash shell or be called via `bash speedtest-csv`.
   - [`speedtest-cli`](https://github.com/sivel/speedtest-cli) which in turn requires Python.
   - that `speedtest-cli` is on the `PATH` or in the same directory as `speedtest-csv`.
-* Windows users: The MinGW project's [MSYS] package is an
+
+Windows users: The MinGW project's [MSYS] package is an
 straightforward way to get Bash on Windows.  Note, there is a
 `speedtest-csv.bat` Windows Batch wrapper script that calls the bash
-script for you.  In other words, if you can `speedtest-csv` at the
+script for you.  In other words, if you call `speedtest-csv` at the
 _Windows_ command prompt, it will work just as if you called it from
 Bash.
 
