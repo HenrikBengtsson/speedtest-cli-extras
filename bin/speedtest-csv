@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+### speedtest-csv {{SPEEDTEST_CSV_VERSION}}
+###
 ### Usage:
 ###  speedtest-csv [options]
 ###
@@ -35,6 +37,8 @@
 ### Copyright: 2014-2017 Henrik Bengtsson
 ### License: GPL (>= 2.1) (https://www.gnu.org/licenses/gpl.html)
 call="$0 $*"
+
+SPEEDTEST_CSV_VERSION="2.0.0"
 
 # Temporary file holding speedtest-cli output
 user=$USER
@@ -138,7 +142,7 @@ if [[ $debug == true ]]; then
 fi
 
 if [[ $version == true ]]; then
-    echo "1.9.9-9000"
+    echo ${SPEEDTEST_CSV_VERSION}
     exit 0
 fi 
 
@@ -153,7 +157,7 @@ if [[ $help == true ]]; then
     else
 	PYTHON_VERSION=${PYTHON_VERSION/Python /}
     fi
-    grep "^###" $0 | grep -v "^####" | cut -b 5- | sed "s/{{SPEEDTEST_CLI_VERSION}}/${SPEEDTEST_CLI_VERSION}/" | sed "s/{{PYTHON_VERSION}}/${PYTHON_VERSION}/"
+    grep "^###" $0 | grep -v "^####" | cut -b 5- | sed "s/{{SPEEDTEST_CSV_VERSION}}/${SPEEDTEST_CSV_VERSION}/" | sed "s/{{SPEEDTEST_CLI_VERSION}}/${SPEEDTEST_CLI_VERSION}/" | sed "s/{{PYTHON_VERSION}}/${PYTHON_VERSION}/"
     exit 0
 fi 
 
