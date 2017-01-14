@@ -26,8 +26,12 @@
 ###  speedtest-csv --sep '\t' --header-units
 ###  speedtest-csv --sep '\t' --header
 ###
-### Copyright: 2014-2016 Henrik Bengtsson
-### License: GPL (>= 2.1) [https://www.gnu.org/licenses/gpl.html]
+### Installed dependencies:
+###  speedtest-cli {{SPEEDTEST_CLI_VERSION}} (https://github.com/sivel/speedtest-cli)
+###  python {{PYTHON_VERSION}}
+###
+### Copyright: 2014-2017 Henrik Bengtsson
+### License: GPL (>= 2.1) (https://www.gnu.org/licenses/gpl.html)
 call="$0 $*"
 
 # Temporary file holding speedtest-cli output
@@ -137,7 +141,17 @@ if [[ $version == TRUE ]]; then
 fi 
 
 if [[ $help == TRUE ]]; then
-    grep "^###" $0 | grep -v "^####" | cut -b 5-
+    SPEEDTEST_CLI_VERSION=$(speedtest-cli --version 2> /dev/null)
+    if [[ $? -ne 0 ]]; then
+	SPEEDTEST_CLI_VERSION="<PLEASE INSTALL>"
+    fi
+    PYTHON_VERSION=$(python --version 2>&1)
+    if [[ $? -ne 0 ]]; then
+	PYTHON_VERSION="<PLEASE INSTALL>"
+    else
+	PYTHON_VERSION=${PYTHON_VERSION/Python /}
+    fi
+    grep "^###" $0 | grep -v "^####" | cut -b 5- | sed "s/{{SPEEDTEST_CLI_VERSION}}/${SPEEDTEST_CLI_VERSION}/" | sed "s/{{PYTHON_VERSION}}/${PYTHON_VERSION}/"
     exit 0
 fi 
 
