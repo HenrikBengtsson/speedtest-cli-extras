@@ -56,25 +56,31 @@ If you're on Linux or macOS, you can use [Cron] jobs to automate the above.
 ### Usage
 ```sh
 $ speedtest-csv --help
+speedtest-csv 2.0.0
+
 Usage:
  speedtest-csv [options]
 
 Options:
- --debug           Output extra debug information
  --header          Display field names (only)
- --help            This help
- --last            Use most recent stats, if available
-                   (avoids calling `speedtest-cli`)
- --quote <str>     Quote fields using <str> (default: none)
- --sep <str>       Separate fields using <str> (default '\t')
- --share           Generate and provide a URL to the speedtest.net
-                   share results image (default)
- --no-share        Disable --share
- --header-units    Units are in header (default)
+
+ --header-units    Units (ms, Mbit/s and km) are in header (default)
  --no-header-units Units are in the values
  --standardize     Standardize units and number formats (default)
  --no-standardize  Disable --standardize
+ --share           Generate and provide a URL to the speedtest.net
+                   share results image (default)
+ --no-share        Disable --share
+
+ --quote <str>     Quote fields using <str> (default: none)
+ --sep <str>       Separate fields using <str> (default '\t')
+
+ --help            This help
  --version         Display version
+
+ --debug           Output extra debug information
+ --last            Use most recent stats, if available
+                   (avoids calling `speedtest-cli`)
 
 Any other options are passed to speedtest-cli as is.
 
