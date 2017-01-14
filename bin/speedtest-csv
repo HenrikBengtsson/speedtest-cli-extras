@@ -44,7 +44,7 @@ log=/tmp/$user/speedtest-csv.log
 # Local functions
 function mecho() { echo "$@" 1>&2; }
 function mdebug() {
-    if [[ $debug == TRUE ]]; then
+    if [[ $debug == true ]]; then
 	mecho "[DEBUG] $@";
     fi
 }
@@ -59,14 +59,14 @@ function str_extract() {
     echo $res
 }
 
-debug=FALSE
-header=FALSE
-standardize=FALSE
-share=TRUE
-last=FALSE
-version=FALSE
-help=FALSE
-header_units=FALSE
+debug=false
+header=false
+standardize=false
+share=true
+last=false
+version=false
+help=false
+header_units=false
 
 # Character for separating values
 sep=";"
@@ -77,11 +77,11 @@ opts=
 while [[ $# > 0 ]]; do
     opt=$1
     if [[ "$opt" == "--header" ]]; then
-	header=TRUE
+	header=true
     elif [[ "$opt" == "--header-units" ]]; then
-	header_units=TRUE
+	header_units=true
     elif [[ "$opt" == "--no-header-units" ]]; then
-	header_units=FALSE
+	header_units=false
     elif [[ "$opt" == "--quote" ]]; then
 	quote=$2
 	shift
@@ -89,28 +89,28 @@ while [[ $# > 0 ]]; do
 	sep=$2
 	shift
     elif [[ "$1" == "--share" ]]; then
-        share=TRUE
+        share=true
     elif [[ "$1" == "--no-share" ]]; then
-        share=FALSE
+        share=false
     elif [[ "$1" == "--standardize" ]]; then
-        standardize=TRUE
+        standardize=true
     elif [[ "$1" == "--no-standardize" ]]; then
-        standardize=FALSE
+        standardize=false
     elif [[ "$1" == "--last" ]]; then
-        last=TRUE
+        last=true
     elif [[ "$1" == "--debug" ]]; then
-        debug=TRUE
+        debug=true
     elif [[ "$1" == "--version" ]]; then
-        version=TRUE
+        version=true
     elif [[ "$1" == "--help" ]]; then
-        help=TRUE
+        help=true
     else
 	opts="$opts $1"
     fi
     shift
 done
 
-if [[ $share == TRUE ]]; then
+if [[ $share == true ]]; then
     opts="$opts --share"
 fi
 
@@ -119,10 +119,10 @@ opts=`echo $opts | sed 's/^ *//g' | sed 's/ *$//g'`
 
 if [[ -n "$SPEEDTEST_CSV_SKIP" ]]; then
     mdebug "\$SPEEDTEST_CSV_SKIP => --last"
-    last=TRUE
+    last=true
 fi
 
-if [[ $debug == TRUE ]]; then
+if [[ $debug == true ]]; then
     mdebug "call: $call"
     mdebug "header: $header"
     mdebug "header_units: $header_units"
@@ -135,12 +135,12 @@ if [[ $debug == TRUE ]]; then
     mdebug "speedtest-cli options: $opts"
 fi
 
-if [[ $version == TRUE ]]; then
+if [[ $version == true ]]; then
     echo "1.3.0-9000"
     exit 0
 fi 
 
-if [[ $help == TRUE ]]; then
+if [[ $help == true ]]; then
     SPEEDTEST_CLI_VERSION=$(speedtest-cli --version 2> /dev/null)
     if [[ $? -ne 0 ]]; then
 	SPEEDTEST_CLI_VERSION="<PLEASE INSTALL>"
@@ -156,7 +156,7 @@ if [[ $help == TRUE ]]; then
 fi 
 
 # Display header?
-if [[ $header == TRUE ]]; then
+if [[ $header == true ]]; then
     mdebug "Generating header"
     start="start"
     stop="stop"
@@ -164,7 +164,7 @@ if [[ $header == TRUE ]]; then
     from_ip="from_ip"
     server="server"
     share_url="share_url"
-    if [[ $header_units == TRUE ]]; then
+    if [[ $header_units == true ]]; then
         server_dist="server_dist (km)"
         server_ping="server_ping (ms)"
         download="download (Mbit/s)"
@@ -180,7 +180,7 @@ else
   
     start=$(date +"%Y-%m-%d %H:%M:%S")
   
-    if [[ $last == TRUE && -f "$log" ]]; then
+    if [[ $last == true && -f "$log" ]]; then
         # Reuse existing results (useful for debugging)
         mdebug "Reusing existing results: $log"
     else
@@ -217,14 +217,14 @@ else
     
     download=$(str_extract "Download: ")
     upload=$(str_extract "Upload: ")
-    if [[ $share == TRUE ]]; then
+    if [[ $share == true ]]; then
 	share_url=$(str_extract "Share results: ")
     else
 	share_url=
     fi
 
     # Standardize units?
-    if [[ $standardize == TRUE ]]; then
+    if [[ $standardize == true ]]; then
 	## Mbits/s -> Mbit/s
         mdebug "Standardize to Mbit/s"
         download=$(echo $download | sed 's/Mbits/Mbit/')
@@ -238,7 +238,7 @@ else
         server_ping=$(echo $server_ping | sed 's/,/./')
     fi
 
-    if [[ $header_units == TRUE ]]; then
+    if [[ $header_units == true ]]; then
         download=$(echo $download | sed 's/ .*//')
         upload=$(echo $upload | sed 's/ .*//')
         server_dist=$(echo $server_dist | sed 's/ .*//')
