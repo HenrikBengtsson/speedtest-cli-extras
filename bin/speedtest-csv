@@ -13,7 +13,7 @@
 ###  --share           Generate and provide a URL to the speedtest.net
 ###                    share results image (default)
 ###  --no-share        Disable --share
-###  --header-units    Units are in header (default)
+###  --header-units    Units (ms, Mbit/s and km) are in header (default)
 ###  --no-header-units Units are in the values
 ###  --standardize     Standardize units and number formats (default)
 ###  --no-standardize  Disable --standardize
