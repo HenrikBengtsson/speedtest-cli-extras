@@ -94,6 +94,13 @@ License: GPL (>= 2.1) (https://www.gnu.org/licenses/gpl.html)
 ```
 
 
+### Notes
+
+As of Nov 2016, speedtest-cli (>= 1.0.0) itself supports outputting the results
+a single comma-separated value line. The format is slightly different from here,
+but the idea is very similar.
+
+
 [speedtest-cli-extras]: https://github.com/HenrikBengtsson/speedtest-cli-extras
 [speedtest-cli]: https://github.com/sivel/speedtest-cli
 [speedtest.net]: http://www.speedtest.net/
