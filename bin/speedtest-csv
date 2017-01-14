@@ -9,22 +9,24 @@
 ###  --last            Use most recent stats, if available
 ###                    (avoids calling `speedtest-cli`)
 ###  --quote <str>     Quote fields using <str> (default: none)
-###  --sep <str>       Separate fields using <str> (default ';')
+###  --sep <str>       Separate fields using <str> (default '\t')
 ###  --share           Generate and provide a URL to the speedtest.net
 ###                    share results image (default)
 ###  --no-share        Disable --share
-###  --header-units    Specify units in header rather than with values
-###  --no-header-units Disable --header-units (default)
-###  --standardize     Standardize units and number formats
-###  --no-standardize  Disable --standardize (default)
+###  --header-units    Units are in header (default)
+###  --no-header-units Units are in the values
+###  --standardize     Standardize units and number formats (default)
+###  --no-standardize  Disable --standardize
 ###  --version         Display version
 ###
 ### Any other options are passed to speedtest-cli as is.
 ###
 ### Example:
-###  speedtest-csv --sep '\t' --standardize
-###  speedtest-csv --sep '\t' --header-units
-###  speedtest-csv --sep '\t' --header
+###  speedtest-csv --header
+###  speedtest-csv
+###
+###  # Defaults in speedtest-csv (<= 1.3.0):
+###  speedtest-csv --sep ';' --no-standardize --no-header-units
 ###
 ### Installed dependencies:
 ###  speedtest-cli {{SPEEDTEST_CLI_VERSION}} (https://github.com/sivel/speedtest-cli)
@@ -61,15 +63,15 @@ function str_extract() {
 
 debug=false
 header=false
-standardize=false
+standardize=true
 share=true
 last=false
 version=false
 help=false
-header_units=false
+header_units=true
 
 # Character for separating values
-sep=";"
+sep="\t"
 quote=""
 opts=
 
@@ -136,7 +138,7 @@ if [[ $debug == true ]]; then
 fi
 
 if [[ $version == true ]]; then
-    echo "1.3.0-9000"
+    echo "1.9.9-9000"
     exit 0
 fi 
 
