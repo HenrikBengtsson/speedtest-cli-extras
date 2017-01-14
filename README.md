@@ -40,7 +40,7 @@ $ speedtest-csv --header > speedtest_stats.tsv
 # At 00:00 UTC
 $ speedtest-csv >> speedtest_stats.tsv
 # At 01:00 UTC
-$ speedtest-csv --sep '\t' --standardize >> speedtest_stats.tsv
+$ speedtest-csv >> speedtest_stats.tsv
 # ...
 
 $ less speedtest_stats.tsv
