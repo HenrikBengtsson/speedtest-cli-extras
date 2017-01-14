@@ -32,7 +32,7 @@ call="$0 $*"
 
 # Temporary file holding speedtest-cli output
 user=$USER
-if test -z $user; then
+if [[ -z $user ]]; then
     user=$USERNAME
 fi
 log=/tmp/$user/speedtest-csv.log
@@ -72,33 +72,33 @@ opts=
 # Parse command-line options
 while [[ $# > 0 ]]; do
     opt=$1
-    if test "$opt" == "--header"; then
+    if [[ "$opt" == "--header" ]]; then
 	header=TRUE
-    elif test "$opt" == "--header-units"; then
+    elif [[ "$opt" == "--header-units" ]]; then
 	header_units=TRUE
-    elif test "$opt" == "--no-header-units"; then
+    elif [[ "$opt" == "--no-header-units" ]]; then
 	header_units=FALSE
-    elif test "$opt" == "--quote"; then
+    elif [[ "$opt" == "--quote" ]]; then
 	quote=$2
 	shift
-    elif test "$opt" == "--sep"; then
+    elif [[ "$opt" == "--sep" ]]; then
 	sep=$2
 	shift
-    elif test "$1" == "--share"; then
+    elif [[ "$1" == "--share" ]]; then
         share=TRUE
-    elif test "$1" == "--no-share"; then
+    elif [[ "$1" == "--no-share" ]]; then
         share=FALSE
-    elif test "$1" == "--standardize"; then
+    elif [[ "$1" == "--standardize" ]]; then
         standardize=TRUE
-    elif test "$1" == "--no-standardize"; then
+    elif [[ "$1" == "--no-standardize" ]]; then
         standardize=FALSE
-    elif test "$1" == "--last"; then
+    elif [[ "$1" == "--last" ]]; then
         last=TRUE
-    elif test "$1" == "--debug"; then
+    elif [[ "$1" == "--debug" ]]; then
         debug=TRUE
-    elif test "$1" == "--version"; then
+    elif [[ "$1" == "--version" ]]; then
         version=TRUE
-    elif test "$1" == "--help"; then
+    elif [[ "$1" == "--help" ]]; then
         help=TRUE
     else
 	opts="$opts $1"
