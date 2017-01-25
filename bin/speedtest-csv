@@ -140,7 +140,7 @@ if [[ $debug == true ]]; then
     mdebug "share: $share"
     mdebug "last: $last"
     mdebug "version: $version"
-    mdebug "field delimeter: '$sep'"
+    mdebug "field delimiter: '$sep'"
     mdebug "quotation mark: $quote"
     mdebug "speedtest-cli options: $opts"
 fi
