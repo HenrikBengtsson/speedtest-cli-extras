@@ -62,8 +62,10 @@ function str_extract() {
     pattern=$1
     # Extract
     res=`grep "$pattern" $log | sed "s/$pattern//g"`
-    # Drop trailing ...
+    # Drop trailing '...'
     res=`echo $res | sed 's/[.][.][.]//g'`
+    # WORKAROUND: Drop stray preceeding '.' (Issue #19)
+    res=`echo $res | sed 's/^[.]*//g'`
     # Trim
     res=`echo $res | sed 's/^ *//g' | sed 's/ *$//g'`
     echo $res

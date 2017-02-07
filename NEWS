@@ -1,6 +1,14 @@
 speedtest-cli-extras
 ====================
 
+Version 2.0.0-9000 (2017-02-07)
+
+BUG FIXES:
+
+  - In some cases, the reported download / upload speeds would
+    be prefixed by stray periods, e.g. '.67.91'.
+
+
 Version 2.0.0 (2017-01-14)
 
 SIGNIFICANT CHANGES:
