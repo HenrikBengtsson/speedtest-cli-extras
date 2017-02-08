@@ -8,6 +8,9 @@ BUG FIXES:
   - In some cases, the reported download / upload speeds would
     be prefixed by stray periods, e.g. '.67.91'.
 
+  - Now speedtest-csv --help does a better job identifying the
+    version of speedtest-cli used.
+  
 
 Version 2.0.0 (2017-01-14)
 

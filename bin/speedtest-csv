@@ -44,6 +44,10 @@ call="$0 $*"
 
 SPEEDTEST_CSV_VERSION="2.0.0-9000"
 
+# In case speedtest-cli is in the same directory
+# as speedtest-csv, but neither is on the PATH
+PATH=$(dirname $0):$PATH
+
 # Temporary file holding speedtest-cli output
 user=$USER
 if [[ -z $user ]]; then
@@ -153,7 +157,7 @@ if [[ $version == true ]]; then
 fi 
 
 if [[ $help == true ]]; then
-    SPEEDTEST_CLI_VERSION=$(speedtest-cli --version 2> /dev/null)
+    SPEEDTEST_CLI_VERSION=$(speedtest-cli --version 2>&1)
     if [[ $? -ne 0 ]]; then
 	SPEEDTEST_CLI_VERSION="<PLEASE INSTALL>"
     fi
@@ -196,9 +200,6 @@ else
         # Reuse existing results (useful for debugging)
         mdebug "Reusing existing results: $log"
     else
-	# In case speedtest-cli is in the same directory
-	# as speedtest-csv, but neither is on the PATH
-        PATH=$(dirname $0):$PATH
         # Query Speedtest
 	cmd="speedtest-cli $opts"
         mdebug "Querying Speedtest using '$cmd'"
