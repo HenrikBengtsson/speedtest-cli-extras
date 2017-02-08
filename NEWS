@@ -3,6 +3,10 @@ speedtest-cli-extras
 
 Version 2.0.0-9000 (2017-02-07)
 
+NEW FEATURES:
+
+  - Now speedtest-csv --debug also outputs the speedtest-cli output.
+
 BUG FIXES:
 
   - In some cases, the reported download / upload speeds would
@@ -17,7 +21,6 @@ Version 2.0.0 (2017-01-14)
 SIGNIFICANT CHANGES:
 
   - New defaults are --sep "\t" --standardize --header-units.
-
 
 NEW FEATURES:
 

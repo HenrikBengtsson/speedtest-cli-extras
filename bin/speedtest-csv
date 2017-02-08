@@ -216,6 +216,13 @@ else
 	mecho $(cat /tmp/$user/speedtest-csv.log)
 	exit $status
     fi
+
+    # Raw results
+    if [[ $debug == true ]]; then
+      mdebug "Raw results"
+      bfr=$(cat $log | tr '\n' '~')
+      echo "[DEBUG] - ${bfr}" | sed 's/~/\n[DEBUG] - /g' | head -n -1 1>&2;
+    fi
     
     # Parse
     mdebug "Parsing results"
