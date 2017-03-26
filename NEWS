@@ -1,12 +1,26 @@
 speedtest-cli-extras
 ====================
 
+Version 2.0.1 (2017-03-26)
+
+NEW FEATURES:
+
+  - Now speedtest-csv --debug also outputs the speedtest-cli output.
+
+BUG FIXES:
+
+  - In some cases, the reported download / upload speeds would
+    be prefixed by stray periods, e.g. '.67.91'.
+
+  - Now speedtest-csv --help does a better job identifying the
+    version of speedtest-cli used.
+  
+
 Version 2.0.0 (2017-01-14)
 
 SIGNIFICANT CHANGES:
 
   - New defaults are --sep "\t" --standardize --header-units.
-
 
 NEW FEATURES:
 
