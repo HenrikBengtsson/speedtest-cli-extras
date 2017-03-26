@@ -42,7 +42,7 @@
 ### License: GPL (>= 2.1) (https://www.gnu.org/licenses/gpl.html)
 call="$0 $*"
 
-SPEEDTEST_CSV_VERSION="2.0.1"
+SPEEDTEST_CSV_VERSION="2.0.1-9000"
 
 # In case speedtest-cli is in the same directory
 # as speedtest-csv, but neither is on the PATH
