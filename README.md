@@ -56,7 +56,7 @@ If you're on Linux or macOS, you can use [Cron] jobs to automate the above.
 ### Usage
 ```sh
 $ speedtest-csv --help
-speedtest-csv 2.0.0
+speedtest-csv 2.0.1
 
 Usage:
  speedtest-csv [options]
